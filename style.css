@@ -1,0 +1,43 @@
+body{
+    margin: 0;
+    background-image: url("image/back.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container{
+    background-color: white;
+    min-height: 100vh;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.task-area{
+    border: 1px solid lightgray;
+}
+
+.task-tabs{
+    display: flex; /*가로 배치*/
+    border-bottom: 1px solid lightgray;
+    position: relative; /*under-line position의 기준*/
+}
+
+.task-tabs div{
+    padding: 1em;
+}
+
+/*움직이는 선이기 때문에 js에서 많이 쓰일 예정이라 id(#)로 사용*/
+#under-line{
+    height: 4px;
+    background-color: lightcoral;
+    position: absolute;
+    width: 60px;
+    left: 0px;
+    top: 53px;
+    padding: 0px;
+}
+
+.task{
+    display: flex; /*가로 배치*/
+    justify-content: space-between; /*일정과 버튼 사이 간격 띄우기*/
+    padding: 1em;
+}
