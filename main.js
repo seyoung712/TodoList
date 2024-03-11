@@ -22,6 +22,7 @@ function addTask(){
     //let taskContent = taskInput.value;
 
     let task = { //객체
+        id: randomIdGenerate(),
         taskContent: taskInput.value,
         isComplete: false
     };
@@ -47,5 +48,9 @@ function render() { //taskList를 화면에 그려주는 함수 (아이템 추�
 }
 
 function toggleComplete(){
-    console.log("check 상태");
+}
+
+//중복되지 않는 랜덤한 아이디 생성
+function randomIdGenerate(){
+    return '_' + Math.random().toString(36).substr(2, 9);
 }
