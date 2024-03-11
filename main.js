@@ -15,9 +15,10 @@ let taskInput = document.getElementById("task-input");
 let addButton = document.getElementById("add-button");
 let taskList = []; //할 일
 
-
 addButton.addEventListener("click", addTask);
 
+
+//할일을 추가하는 함수
 function addTask(){
     //let taskContent = taskInput.value;
 
@@ -32,23 +33,42 @@ function addTask(){
     render();
 }
 
-function render() { //taskList를 화면에 그려주는 함수 (아이템 추가)
+//taskList를 화면에 그려주는 함수 (아이템 추가)
+function render() { 
     let resultHTML = '';
 
     for(let i=0; i<taskList.length; i++){
-        resultHTML += `<div class="task">
+        if(taskList[i].isComplete == true){
+            resultHTML += `<div class="task">
+                            <div class="task-done">${taskList[i].taskContent}</div>
+                                <div>
+                                    <button onClick="toggleComplete('${taskList[i].id}')">Check</button>
+                                    <button>Delete</button>
+                                </div>
+                            </div>`
+        } else {
+            resultHTML += `<div class="task">
                             <div>${taskList[i].taskContent}</div>
                                 <div>
                                     <button onClick="toggleComplete('${taskList[i].id}')">Check</button>
                                     <button>Delete</button>
                                 </div>
-                        </div>`
+                            </div>`
+        }
     }
     document.getElementById("task-board").innerHTML = resultHTML;
 }
 
+//item의 check 버튼을 클릭 시, 해당 item의 isComplete의 값을 true로 변경 & 밑줄 긋기
 function toggleComplete(id){
-    console.log("id:",id);
+    for (let i=0; i<taskList.length; i++){
+        if(taskList[i].id == id){ //list의 id와, 매개변수의 id(check여부) 비교
+            taskList[i].isComplete = true;
+            break;
+        }
+    }
+    render();
+    console.log(taskList);
 }
 
 //중복되지 않는 랜덤한 아이디 생성

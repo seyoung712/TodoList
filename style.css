@@ -41,3 +41,7 @@ body{
     justify-content: space-between; /*일정과 버튼 사이 간격 띄우기*/
     padding: 1em;
 }
+
+.task-done{
+    text-decoration: line-through; /*task에 밑줄*/
+}
