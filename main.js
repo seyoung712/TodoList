@@ -39,7 +39,7 @@ function render() { //taskList를 화면에 그려주는 함수 (아이템 추�
         resultHTML += `<div class="task">
                             <div>${taskList[i].taskContent}</div>
                                 <div>
-                                    <button onClick="toggleComplete()">Check</button>
+                                    <button onClick="toggleComplete('${taskList[i].id}')">Check</button>
                                     <button>Delete</button>
                                 </div>
                         </div>`
@@ -47,7 +47,8 @@ function render() { //taskList를 화면에 그려주는 함수 (아이템 추�
     document.getElementById("task-board").innerHTML = resultHTML;
 }
 
-function toggleComplete(){
+function toggleComplete(id){
+    console.log("id:",id);
 }
 
 //중복되지 않는 랜덤한 아이디 생성
