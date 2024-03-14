@@ -45,3 +45,8 @@ body{
 .task-done{
     text-decoration: line-through; /*task에 밑줄*/
 }
+
+.task-tabs div{
+    cursor: pointer; /*마우스 오버 -> 커서를 pointer로 변경*/
+
+}
