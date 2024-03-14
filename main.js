@@ -16,6 +16,10 @@ let taskInput = document.getElementById("task-input");
 let addButton = document.getElementById("add-button");
 let tabs = document.querySelectorAll(".task-tabs div"); //task-tabs의 div 여러개를 선택
 let taskList = []; //할 일
+let underLine = document.getElementById("under-line");
+let mode='all'; //tab 기본 선택은 'all'
+let filterList=[]; 
+
 
 addButton.addEventListener("click", addTask);
 
@@ -44,23 +48,31 @@ function addTask(){
 
 //taskList를 화면에 그려주는 함수 (아이템 추가)
 function render() { 
-    let resultHTML = '';
+    //1. 내가 선택한 tab에 따라서 2. 리스트를 다르게 보여주기
+    let list=[];
+    if(mode === "all"){ //taskList
+        list = taskList;
+    }else if (mode === "ing" || mode === "done"){ //filterList (isComplete의 결과값에 따른 리스트 배열)
+        list = filterList;
+    }
 
-    for(let i=0; i<taskList.length; i++){
-        if(taskList[i].isComplete == true){
+    
+    let resultHTML = '';
+    for(let i=0; i<list.length; i++){
+        if(list[i].isComplete == true){
             resultHTML += `<div class="task">
-                            <div class="task-done">${taskList[i].taskContent}</div>
+                            <div class="task-done">${list[i].taskContent}</div>
                                 <div>
-                                    <button onClick="toggleComplete('${taskList[i].id}')">Check</button>
-                                    <button onClick="deleteTask('${taskList[i].id}')">Delete</button>
+                                    <button onClick="toggleComplete('${list[i].id}')">Check</button>
+                                    <button onClick="deleteTask('${list[i].id}')">Delete</button>
                                 </div>
                             </div>`
         } else {
             resultHTML += `<div class="task">
-                            <div>${taskList[i].taskContent}</div>
+                            <div>${list[i].taskContent}</div>
                                 <div>
-                                    <button onClick="toggleComplete('${taskList[i].id}')">Check</button>
-                                    <button onClick="deleteTask('${taskList[i].id}')">Delete</button>
+                                    <button onClick="toggleComplete('${list[i].id}')">Check</button>
+                                    <button onClick="deleteTask('${list[i].id}')">Delete</button>
                                 </div>
                             </div>`
         }
@@ -92,8 +104,42 @@ function deleteTask(id){
     console.log(taskList);
 }
 
+//tab을 클릭 시 출력 리스트 변경
 function filter(event){ //event : 어떤 탭을 클릭했는지에 대한 정보
-    console.log("filter");
+    
+    if(event){ //ING -> DONE으로 표시하면 바로 사라지는 부분
+        mode = event.target.id; //전역변수로 render()에서도 사용됨
+        filterList = []; //전역변수로 render()에서도 사용됨
+    
+        //tab 선택 시 언더바 이동
+        underLine.style.left = event.currentTarget.offsetLeft + "px";
+        underLine.style.width = event.currentTarget.offsetWidth + "px";
+        underLine.style.top = event.currentTarget.offsetTop + event.currentTarget.offsetHeight + "px";
+    }
+    
+
+    if(mode === "all") {
+        //1. 전체 리스트 출력
+        render();
+    }else if (mode === "ing"){
+        //2. 진행중 리스트 출력 (task.isComplete = false?)
+        for(let i=0; i<taskList.length; i++){
+            if(taskList[i].isComplete === false) {
+                filterList.push(taskList[i]); //진행중인 item들을 새로운 배열(filterList)에 넣기
+            }
+        }
+        render(); //★
+        //console.log("진행중",filterList);
+    } else if (mode === "done"){
+        //3. 끝난 리스트 출력 (task.isComplete = true?)
+        for(let i=0; i<taskList.length; i++){
+            if(taskList[i].isComplete === true) {
+                filterList.push(taskList[i]); //끝난 item들을 새로운 배열(filterList)에 넣기
+            }
+        }
+        render(); //★
+        //console.log("끝",filterList);
+    }
 }
 
 
